@@ -30,15 +30,23 @@ class_labels = ['angry', 'disgusted','fear','happy','neutral','sad','surprised']
 st.title("Emotion Detector")
 run = st.checkbox('Run')
 
-# Initialize video capture
-cap = cv2.VideoCapture(0)
+# Try different indices to find the correct camera
+for i in range(10):
+    cap = cv2.VideoCapture(i)
+    if not cap.isOpened():
+        print(f"Cannot open camera at index {i}")
+    else:
+        print(f"Camera found at index {i}")
+        break
+
 
 frame_window = st.image([])
 
-while run:
+# Continue with capturing frames from the correct camera index
+while True:
     ret, frame = cap.read()
     if not ret:
-        st.error("Failed to capture video feed.")
+        print("Failed to capture video feed.")
         break
     
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
