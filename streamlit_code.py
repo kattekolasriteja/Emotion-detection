@@ -31,24 +31,17 @@ st.title("Emotion Detector")
 run = st.checkbox('Run')
 
 # Try different indices to find the correct camera
-for i in range(10):
-    cap = cv2.VideoCapture(i)
-    if not cap.isOpened():
-        print(f"Cannot open camera at index {i}")
-    else:
-        print(f"Camera found at index {i}")
-        break
-
+# Attempt to open cameras by specific indices
+cap = cv2.VideoCapture(0)
 
 frame_window = st.image([])
 
 # Continue with capturing frames from the correct camera index
-while True:
+while run:
     ret, frame = cap.read()
     if not ret:
-        print("Failed to capture video feed.")
+        st.error("Failed to capture video feed.")
         break
-    
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
 
