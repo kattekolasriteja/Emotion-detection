@@ -24,24 +24,23 @@ def load_emotion_model():
 
 classifier = load_emotion_model()
 
-class_labels = ['angry', 'disgusted','fear','happy','neutral','sad','surprised']
+class_labels = ['angry', 'disgusted', 'fear', 'happy', 'neutral', 'sad', 'surprised']
 
 # Streamlit app
 st.title("Emotion Detector")
 run = st.checkbox('Run')
 
-# Try different indices to find the correct camera
-# Attempt to open cameras by specific indices
-cap = cv2.VideoCapture(0)
+# Initialize video capture
+cap = cv2.VideoCapture(0)  # Use 0 for the first camera device
 
 frame_window = st.image([])
 
-# Continue with capturing frames from the correct camera index
 while run:
     ret, frame = cap.read()
     if not ret:
         st.error("Failed to capture video feed.")
         break
+    
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
 
@@ -65,4 +64,3 @@ while run:
     frame_window.image(frame)
 
 cap.release()
-# cv2.destroyAllWindows()  # This line can be safely removed
